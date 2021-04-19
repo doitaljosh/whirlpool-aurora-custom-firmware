@@ -18,6 +18,13 @@ half-duplex serial interface, so a tri-state buffer is required.
 3. RX/TX
 4. GND
 
+### P2:
+1. DC Load 2
+2. GND
+3. DC Load 1
+4. GND
+5. GND
+
 ## P3:
 1. LED1+
 2. LED1-
