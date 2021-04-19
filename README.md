@@ -24,6 +24,12 @@ half-duplex serial interface, so a tri-state buffer is required.
 3. LED2+
 4. LED2-
 
+## P6: (Connect to STLINK)
+1. +5V
+2. RST
+3. GND
+4. SWIM
+
 # Serial protocol:
 
 ## Frame format:
