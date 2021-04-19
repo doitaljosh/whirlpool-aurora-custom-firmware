@@ -24,7 +24,8 @@ half-duplex serial interface, so a tri-state buffer is required.
 3. LED2+
 4. LED2-
 
-## P6: (Connect to STLINK)
+## P6:
+(Connect to STLINK)
 1. +5V
 2. RST
 3. GND
@@ -36,7 +37,8 @@ half-duplex serial interface, so a tri-state buffer is required.
 ### [0xDD][u8 Addr][u8 Channel][u8 Value][u8 LED1 Brightness][u8 LED2 Brightness][u8 Checksum]
 
 ## Fields:
-### Addr:
+### Addr: 
+(Multiple boards can be controlled on one bus. Unique for each board)
 1. LED board addr: 0x01
 
 ### Channel:
@@ -50,3 +52,5 @@ half-duplex serial interface, so a tri-state buffer is required.
 
 ### Brightness:
 #### 0x00-0xFF
+
+There is a lot more to be added. Pre-set modes, control of the PWM controlled 12V outputs, and a more efficient protocol layer are to name a few.
