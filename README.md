@@ -23,3 +23,24 @@ half-duplex serial interface, so a tri-state buffer is required.
 2. LED1-
 3. LED2+
 4. LED2-
+
+# Serial protocol:
+
+## Frame format:
+### [0xDD][u8 Addr][u8 Channel][u8 Value][u8 LED1 Brightness][u8 LED2 Brightness][u8 Checksum]
+
+## Fields:
+### Addr:
+1. LED board addr: 0x01
+
+### Channel:
+1. 0x00: Channel 1
+2. 0x01: Channel 2
+3. 0x02: Both channels
+
+### Value:
+1. 0x00: Enable
+2. 0x01: Disable
+
+### Brightness:
+#### 0x00-0xFF
