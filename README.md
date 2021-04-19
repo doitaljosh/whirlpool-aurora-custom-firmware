@@ -1,6 +1,6 @@
-### Whirlpool Aurora LED board custom firmware
+# Whirlpool Aurora LED board custom firmware
 
-# Here, you'll find Arduino-based firmware I developed for the LED controller inside some Whirlpool fridges.
+## Here, you'll find Arduino-based firmware I developed for the LED controller inside some Whirlpool fridges.
 
 The Aurora LED board is used to drive the interior LED lighting of some Whirlpool fridges, and normally talks to the fridge's
 main board over a proprietary protocol called WIDE. It includes two constant current LED drivers, and two 12V PWM output channels
@@ -12,13 +12,13 @@ half-duplex serial interface, so a tri-state buffer is required.
 
 ## Aurora board pinouts:
 
-# P1:
+### P1:
 1. +12V
 2. NC
 3. RX/TX
 4. GND
 
-# P3:
+## P3:
 1. LED1+
 2. LED1-
 3. LED2+
