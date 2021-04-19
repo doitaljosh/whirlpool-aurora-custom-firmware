@@ -1,0 +1,22 @@
+Whirlpool Aurora LED board reverse engineering:
+
+Microcontroller:
+Part: STMicro STM8S105K4T6
+
+STM8 pins:
+
+Pin:	Peripheral:	Use case:
+8	PF4		FT heater/shelf LED pwr
+13	PB3		FT heater en
+15	PB1		Shelf LED en
+18	TIM1_CH1	LED PWM 1
+19	TIM1_CH2	LED PWM 2
+21	PC4		LED INH 1
+22	PC5		LED INH 2
+23	PC6		LED FAULT 1
+24	PC7		LED FAULT 2
+27	PD2		FT heater PWM
+29	PD4		Shelf LED PWM
+30	UART2_TX	WIDE bus TXD
+31	UART2_RX	WIDE bus RXD
+
