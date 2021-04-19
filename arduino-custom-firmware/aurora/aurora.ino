@@ -8,7 +8,7 @@ const uint8_t addr = 0x01;
 const uint8_t len = 7;
 
 /*  Frame format:
- *  [0xDD][ADDR][PWR][PWRVAL][LED1BRT][LED2BRT][CRC]
+ *  [0xDD][ADDR][CH][CHSTATE][LED1BRT][LED2BRT][CRC]
  */ 
 
 uint8_t msgBuf[len];
@@ -72,7 +72,6 @@ uint8_t verifyCrc(uint8_t origCrc) {
 }
 
 void setup() {
-  while(!Serial);
   Serial_begin(19200);
   
   msgBuf[0] = 0xDD;
