@@ -34,12 +34,18 @@ half-duplex serial interface, so a tri-state buffer is required.
 # Serial protocol:
 
 ## Frame format:
-### [0xDD][u8 Addr][u8 Channel][u8 Value][u8 LED1 Brightness][u8 LED2 Brightness][u8 Checksum]
+### [0xDD][u8 ledBoardAddr][u8 Cmd][u8 Channel][u8 Value][PWM1][PWM2][u8 Checksum]
 
 ## Fields:
 ### Addr: 
 (Multiple boards can be controlled on one bus. Unique for each board)
-1. LED board addr: 0x01
+1. Master addr: 0x00
+2. LED board addr: 0x01
+
+### Command:
+1. 0x00: Control (LED ch1 and DC load ch1) or (LED ch2 and DC load ch2) or all
+2. 0x01: Control LED ch1 or LED ch2 or both
+3. 0x02: Control DC load ch1 or DC load ch2 or both
 
 ### Channel:
 1. 0x00: Channel 1
@@ -51,6 +57,10 @@ half-duplex serial interface, so a tri-state buffer is required.
 2. 0x01: Disable
 
 ### Brightness:
-#### 0x00-0xFF
+0x00-0xFF
+
+## Command response:
+### Frame format: [0xDD][masterAddr][Cmd][Checksum]
+
 
 There is a lot more to be added. Pre-set modes, control of the PWM controlled 12V outputs, and a more efficient protocol layer are to name a few.
