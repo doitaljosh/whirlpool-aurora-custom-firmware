@@ -39,7 +39,7 @@ const uint8_t cmdResponseLen = 4;
  *  [0xDD][ADDR][CMD][CH][CHSTATE][PWM1][PWM2][CRC]
  */ 
 
-uint8_t msgBuf[8];
+uint8_t rcvBuf[8];
 uint8_t sendBuf[4];
 uint8_t numBytesRead;
 uint8_t stxReceived;
@@ -130,14 +130,14 @@ uint8_t ledPowerCtrl(uint8_t channel, uint8_t val) {
   }
 }
 
-uint8_t dcOutputPowerCtrl(uint8_t channelId, uint8_t val) {
+uint8_t dcOutputPowerCtrl(uint8_t channel, uint8_t val) {
   if (val == 1) {
     digitalWrite(dcOutput_ena, HIGH);
   } else {
     digitalWrite(dcOutput_ena, LOW);
   }
   
-  switch(channelId) {
+  switch(channel) {
     case 0x00:
       digitalWrite(dcOutput1_ena, val);
       return 1;
@@ -181,7 +181,7 @@ uint8_t verifyCrc(uint8_t origCrc) {
   
   for(uint8_t i = 0; i < (len - 1); i++) {
     
-    sum += msgBuf[i];
+    sum += rcvBuf[i];
     
   }
   
@@ -228,7 +228,7 @@ void setup() {
   
   Serial_begin(19200);
   
-  msgBuf[0] = 0xDD;
+  rcvBuf[0] = 0xDD;
   
   numBytesRead = 0;
   stxReceived = 0;
@@ -257,7 +257,7 @@ void loop() {
       
     }
     
-    msgBuf[numBytesRead] = b;
+    rcvBuf[numBytesRead] = b;
     numBytesRead++;
     
     if(numBytesRead >= len) {
@@ -266,27 +266,27 @@ void loop() {
       
       if(stxReceived) {
 
-        uint8_t cmd = msgBuf[2];
-        uint8_t crc = msgBuf[7];
+        uint8_t cmd = rcvBuf[2];
+        uint8_t crc = rcvBuf[7];
         
-        if(msgBuf[1] == addr && verifyCrc(crc)) {
+        if(rcvBuf[1] == addr && verifyCrc(crc)) {
 
           switch(cmd) {
             
             case 0x00:
-              ledPowerCtrl(msgBuf[3], msgBuf[4]);
-              dcOutputPowerCtrl(msgBuf[3], msgBuf[4]);
-              setPwm(msgBuf[5], msgBuf[6]);
+              ledPowerCtrl(rcvBuf[3], rcvBuf[4]);
+              dcOutputPowerCtrl(rcvBuf[3], rcvBuf[4]);
+              setPwm(rcvBuf[5], rcvBuf[6]);
               break;
             case 0x01:
-              ledPowerCtrl(msgBuf[3], msgBuf[4]);
-              setPwm(0, msgBuf[5]);
-              setPwm(1, msgBuf[6]);
+              ledPowerCtrl(rcvBuf[3], rcvBuf[4]);
+              setPwm(0, rcvBuf[5]);
+              setPwm(1, rcvBuf[6]);
               break;
             case 0x02:
-              dcOutputPowerCtrl(msgBuf[3], msgBuf[4]);
-              setPwm(3, msgBuf[5]);
-              setPwm(4, msgBuf[6]);
+              dcOutputPowerCtrl(rcvBuf[3], rcvBuf[4]);
+              setPwm(3, rcvBuf[5]);
+              setPwm(4, rcvBuf[6]);
               break;
             default:
               break;
