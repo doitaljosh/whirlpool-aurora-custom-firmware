@@ -53,8 +53,8 @@ half-duplex serial interface, so a tri-state buffer is required.
 3. 0x02: Both channels
 
 ### Value:
-1. 0x00: Enable
-2. 0x01: Disable
+1. 0x00: Disable
+2. 0x01: Enable
 
 ### Brightness:
 0x00-0xFF
