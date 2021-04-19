@@ -32,8 +32,8 @@ gpioInit_t outputPins[] = {
 const uint8_t stx = 0xDD;
 const uint8_t addr = 0x01;
 const uint8_t masterAddr = 0x00;
-const uint8_t len = 8;
-const uint8_t cmdResponseLen = 4;
+const uint8_t rcvBufLen = 8;
+const uint8_t sendBufLen = 4;
 
 /*  Frame format:
  *  [0xDD][ADDR][CMD][CH][CHSTATE][PWM1][PWM2][CRC]
@@ -179,7 +179,7 @@ uint8_t verifyCrc(uint8_t origCrc) {
   uint8_t calculatedCrc = 0;
   uint16_t sum = 0;
   
-  for(uint8_t i = 0; i < (len - 1); i++) {
+  for(uint8_t i = 0; i < (rcvBufLen - 1); i++) {
     
     sum += rcvBuf[i];
     
@@ -203,7 +203,7 @@ uint8_t calculateCrc() {
   uint8_t calculatedCrc = 0;
   uint16_t sum = 0;
 
-  for(uint8_t i = 0; i < (cmdResponseLen - 1); i++) {
+  for(uint8_t i = 0; i < (sendBufLen - 1); i++) {
     sum += sendBuf[i];
   }
   calculatedCrc = sum & 0xFF;
@@ -218,7 +218,7 @@ void cmdResponse(uint8_t cmd) {
   sendBuf[2] = cmd;
   sendBuf[3] = calculateCrc();
 
-  for (int c=0; c<=cmdResponseLen; c++) {
+  for (int c=0; c<=sendBufLen; c++) {
     Serial_write(sendBuf[c]);
   }
   
@@ -260,18 +260,18 @@ void loop() {
     rcvBuf[numBytesRead] = b;
     numBytesRead++;
     
-    if(numBytesRead >= len) {
+    if(numBytesRead >= rcvBufLen) {
       
       numBytesRead = 0;
       
       if(stxReceived) {
 
-        uint8_t cmd = rcvBuf[2];
-        uint8_t crc = rcvBuf[7];
+        uint8_t cmdReceived = rcvBuf[2];
+        uint8_t crcReceived = rcvBuf[7];
         
-        if(rcvBuf[1] == addr && verifyCrc(crc)) {
+        if(rcvBuf[1] == addr && verifyCrc(crcReceived)) {
 
-          switch(cmd) {
+          switch(cmdReceived) {
             
             case 0x00:
               ledPowerCtrl(rcvBuf[3], rcvBuf[4]);
@@ -298,7 +298,7 @@ void loop() {
         stxReceived = 0;
         firstTimeStxReceived = 0;
 
-        cmdResponse(cmd);
+        cmdResponse(cmdReceived);
         
       }
       
